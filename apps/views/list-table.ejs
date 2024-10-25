@@ -1,0 +1,101 @@
+<%
+
+let content=`
+
+<div class="pagetitle">
+    <h1>Danh Sách Bàn</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a>Home</a></li>
+        <li class="breadcrumb-item">Quản Lý Bàn</li>
+        <li class="breadcrumb-item active">Danh Sách</li>
+      </ol>
+    </nav>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+      Thêm Bàn
+    </button>
+    <div class="modal fade" id="basicModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Thêm Bàn</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row mb-3">
+                <label for="inputName" class="col-sm-2 col-form-label">Tên</label>
+                <div class="col-sm-10">
+                  <input type="text" id="inputName" class="form-control" required>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Loại Bàn</label>
+                <div class="col-sm-10">
+                  <select id="tableTypeSelect" class="form-select" aria-label="Default select example">
+                    <option selected>Chọn Loại Bàn</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" id="saveTableBtn" class="btn btn-primary">Lưu Bàn</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Thêm Mới Modal-->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#TypeModal">
+      Thêm Loại Bàn
+    </button>
+    <div class="modal fade" id="TypeModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Thêm Loại Bàn</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row mb-3">
+                <label for="inputTypeName" class="col-sm-2 col-form-label">Tên Loại</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPrice" class="col-sm-2 col-form-label">Giá Sử Dụng</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-primary">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<section class="section">
+    <div class="row align-items-top" id="table-list">
+      
+    </div>
+    <div id="pagination" class="my-3">
+      <!-- Các nút phân trang sẽ được thêm vào đây -->
+  </div>
+</section>
+
+`;
+
+let scripts = ` <script src="/static/js/manager-table.js"></script> `;
+
+%>
+
+
+<%- include('layout', { title: 'List Table ', content: content, scripts: scripts }) %>

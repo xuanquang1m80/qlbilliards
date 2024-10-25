@@ -31,49 +31,49 @@ $(document).ready(function() {
 
 
 //Call api check token
-window.onload = function() {
-  // Lấy URL hiện tại
-  const currentPage = window.location.pathname;
+// window.onload = function() {
+//   // Lấy URL hiện tại
+//   const currentPage = window.location.pathname;
 
-  // Nếu trang hiện tại là trang login, không cần kiểm tra token
-  if (currentPage === '/login') {
-      console.log("Trang login không cần kiểm tra token.");
-      return;
-  }
+//   // Nếu trang hiện tại là trang login, không cần kiểm tra token
+//   if (currentPage === '/login') {
+//       console.log("Trang login không cần kiểm tra token.");
+//       return;
+//   }
 
-  // Nếu không phải trang login, kiểm tra token từ cookie
-  const token = getCookie('token');
+//   // Nếu không phải trang login, kiểm tra token từ cookie
+//   const token = getCookie('token');
 
-  // Nếu không có token, điều hướng đến trang login
-  if (!token) {
-      window.location.href = '/login';
-  }
+//   // Nếu không có token, điều hướng đến trang login
+//   if (!token) {
+//       window.location.href = '/login';
+//   }
 
-    // Gửi yêu cầu lên server để kiểm tra tính hợp lệ của token
-    fetch('/api/check-token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token // Gửi token trong header Authorization
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error(response.message);
-        }
-    })
-    .then(data => {
-        console.log('Token hợp lệ, tiếp tục vào trang');
-    })
-    .catch(error => {
-        console.error('Token không hợp lệ hoặc đã hết hạn:', error);
-        alert('Bạn chưa đăng nhập. Vui lòng đăng nhập!!!')
-        // Điều hướng đến trang login nếu token không hợp lệ
-        window.location.href = '/login';
-    });
-};
+//     // Gửi yêu cầu lên server để kiểm tra tính hợp lệ của token
+//     fetch('/api/check-token', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': token // Gửi token trong header Authorization
+//         }
+//     })
+//     .then(response => {
+//         if (response.ok) {
+//             return response.json();
+//         } else {
+//             throw new Error(response.message);
+//         }
+//     })
+//     .then(data => {
+//         console.log('Token hợp lệ, tiếp tục vào trang');
+//     })
+//     .catch(error => {
+//         console.error('Token không hợp lệ hoặc đã hết hạn:', error);
+//         alert('Bạn chưa đăng nhập. Vui lòng đăng nhập!!!')
+//         // Điều hướng đến trang login nếu token không hợp lệ
+//         window.location.href = '/login';
+//     });
+// };
 
 
 

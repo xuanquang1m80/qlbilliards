@@ -45,27 +45,7 @@ const login = async (req,res)=>{
 
 }
 
-const authtoken = (req,res)=>{
-
-  const strtoken = req.headers['authorization'];
-
-  const token = strtoken.split(" ")[1];
-  
-  console.log(token)
-  if (!token) {
-      return res.status(401).json({ message: 'Bạn chưa đăng nhập !!!' });
-  }
-
-  // Xác thực token
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-          return res.status(403).json({ message: 'Thời gian đã hết. Vui lòng đăng nhập lại!!!' });
-      }
-
-      // Nếu token hợp lệ, trả về thành công
-      res.status(200).json({ message: 'Token hợp lệ', user });
-  });
-}
 
 
-module.exports = {login,authtoken};
+
+module.exports = {login};
