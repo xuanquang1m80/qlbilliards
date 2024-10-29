@@ -83,128 +83,85 @@ let content=`
 </div>
 
 <section class="section">
-    <div class="row align-items-top" id="table-list">
-      
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Danh Sách Bàn</h5>
+
+              <!-- Default Table -->
+              <table class="table" id="table-list">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên Bàn</th>
+                    <th scope="col">Loại Bàn</th>
+                    <th scope="col">Giá/Giờ</th>
+                    <th scope="col">Trạng Thái</th>
+                    <th scope="col">Hành Động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+              <!-- End Default Table Example -->
+            </div>
+        </div>
+      </div>
+
     </div>
-    <div id="pagination" class="my-3"><!-- Các nút phân trang sẽ được thêm vào đây -->
+    <div id="pagination" class="my-3">
     </div>
-
-
-
 
 
 </section>
 
 
-
-    <!-- Modal xử lý mở bàn và dịch vụ-->
-<div class="modal fade" id="ThemDichVuModal" tabindex="-1">        
-      <div class="modal-dialog  modal-fullscreen">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Thêm Dịch Vụ Sử Dụng</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="UpdateTableModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Sửa Thông Tin Bàn</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row mb-3">
+              <label for="inputName" class="col-sm-2 col-form-label">Tên</label>
+              <div class="col-sm-10">
+                <input type="hidden" id="tableID"> 
+                <input type="text" id="TableName" class="form-control">
               </div>
-              <div class="modal-body">
-                <div class="container d-flex">
-                    <div class="col-lg-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Danh Sách Dịch Vụ</h5>
-                                <!-- General Form Elements -->
-                                <form>
-                                    <div class="col-md-12">
-                                        <label for="inputName5" class="form-label">Loại Dịch Vụ :</label>
-                                        <div class="col-sm-10">
-                                            <select id="selectLoaiDichVu" class="form-select" aria-label="Default select example">
-                                                        <option selected disabled value="">Choose...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="inputName5" class="form-label"> Dịch Vụ :</label>
-                                        <div class="col-sm-10">
-                                            <select id="selectDichVu" class="form-select" aria-label="Default select example">
-                                              <option selected disabled value="">Choose...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="col-sm-2 col-form-label">Giá :</label>
-                                        <div class="col-sm-10">
-                                            <input id="giaDichVu" type="text" class="form-control" value=" vnđ" disabled="">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label for="inputName5" class="form-label">Số Lượng:</label>
-                                        <div class="col-sm-10">
-                                            <input type="number" id="soLuong" class="form-control" min="0">
-                                        </div>
-                                    </div>
-                                    <div class="d-grid gap-2 mt-3">
-                                        <input type="hidden" id="tableId" name="tableId" value=""/>
-                                        <input type="hidden" id="tableUsageId" name="tableUsageId" value=""/>
-                                        <button type="button" id="addServiceButton" class="btn btn-primary">Thêm Dịch Vụ</button>
-                                    </div>                                                      
-                                </form><!-- End General Form Elements -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-9">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Hóa Đơn Dịch Vụ</h5>
-                                <!-- General Form Elements -->
-                                <form> 
-                                  <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Tên</label>
-                                    <div class="col-sm-4">
-                                      <input disabled type="text" id="TableName" class="form-control" value="">
-                                    </div>
-                                    <label class="col-sm-2 col-form-label">Khách Hàng</label>
-                                    <div class="col-sm-4">
-                                      <select type="text" id="CustomerName" class="form-control">
-                                      </select>
-                                    </div>
-                                    <label class="col-sm-2 col-form-label">Giờ Bắt Đầu</label>
-                                    <div class="col-sm-10">
-                                      <input type="time" id="inputStartTime" class="form-control" value="">
-                                    </div>
-                                  </div>
-                                  <table class="table table-bordered " id="invoiceTable">
-                                      <thead class="table-danger">
-                                                    <tr>
-                                                        <th class="text-center" scope="col">STT</th>
-                                                        <th class="text-center" scope="col">Tên Loại Dịch Vụ</th>
-                                                        <th class="text-center" scope="col">Tên Dịch Vụ</th>
-                                                        <th class="text-center" scope="col">Đơn Giá / Món</th>
-                                                        <th class="text-center" scope="col">Số Lượng</th>
-                                                        <th class="text-center" scope="col">Thành Tiền</th>
-                                                    </tr>
-                                      </thead>
-                                      <tbody>
-                                                    
-                                      </tbody>
-                                      <tfoot>
-                                      </tfoot>
-                                  </table>
-                                </form><!-- End General Form Elements -->
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Trạng Thái</label>
+                <div class="col-sm-10">
+                  <select id="statusSelect" class="form-select" aria-label="Default select example">
+                    
+                  </select>
                 </div>
+            </div>
+            <div class="row mb-3">
+              <label class="col-sm-2 col-form-label">Loại Bàn</label>
+              <div class="col-sm-10">
+                <select id="typeSelect" class="form-select" aria-label="Default select example">
+                  
+                </select>
               </div>
-              <div class="modal-footer">
-                  <button type="button" id="SaveActions" class="btn btn-primary">Tính Giờ</button>
-                  <button type="button" class="btn btn-secondary" onclick="closeModal()" data-bs-dismiss="modal">Đóng</button>
-              </div>
-          </div>
-      </div>                     
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" id="updateTableBtn" class="btn btn-primary">Lưu Bàn</button>
+        </div>
+      </div>
+    </div>
 </div>
 
 `;
 
-let scripts = ` <script src="/static/js/manager-table.js"></script> `;
+let scripts = ` <script src="/static/js/list-table.js"></script> `;
 
 %>
 

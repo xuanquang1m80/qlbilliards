@@ -1,0 +1,141 @@
+<% 
+let content= `
+
+
+<section class="section dashboard">
+    
+<div class="row">
+    
+    <div class="row">
+
+        <!-- Over View  -->
+        <div class="col-lg-8">
+          <div class="row">
+
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Tổng Số Bàn</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 id="TotalTable">145</h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+           
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Bàn Đang Chơi</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 id="TableUsage"></h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-xxl-4 col-xl-12">
+
+              <div class="card info-card customers-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Khách Hàng</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6 id="TotalCustomer"></h6>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Doanh Thu Hàng Tháng</h5>
+        
+                      <!-- Bar Chart -->
+                      <canvas id="barChart" style="max-height: 400px;"></canvas>
+        
+                    </div>
+                </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Hoạt Động Hôm Nay</h5>
+
+              <div class="activity">
+
+                <div class="activity-item d-flex">
+                  <div class="activite-label">32 min</div>
+                  <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                  <div class="activity-content">
+                    Khách Hàng  <a href="#" class="fw-bold text-dark">Phạm Xuân Quảng </a> đã thanh toán 130.000
+                  </div>
+                </div><!-- End activity item-->
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+</div>
+
+
+
+</section>
+
+`;
+
+let scripts =` <script src="/static/js/overview.js"></script>`; 
+
+%>
+
+<%- include('layout', { title: 'Thống Kê', content: content, scripts: scripts }) %>

@@ -30,7 +30,7 @@ function renderPagination(currentPage, totalPages) {
         }
 
         pageButton.addEventListener('click', () => {
-            loadStudentList(i); // Tải lại danh sách sinh viên theo trang
+            getCustomer(i); // Tải lại danh sách sinh viên theo trang
         });
 
         pagination.appendChild(pageButton);
@@ -77,66 +77,6 @@ function renderTableList(tables) {
     });
 }
 
-
-document.getElementById('basicModal').addEventListener('show.bs.modal', async function () {
-    try {
-      // Gọi API để lấy danh sách loại bàn
-      const response = await fetch('/api/table-types'); // Đảm bảo rằng endpoint này trả về danh sách loại bàn
-      const tableTypes = await response.json();
-  
-      // Xác định thẻ select
-      const selectElement = document.querySelector('#basicModal select');
-      selectElement.innerHTML = ''; // Xóa các option cũ
-  
-      // Thêm các option mới
-      tableTypes.forEach(type => {
-        const option = document.createElement('option');
-        option.value = type._id; // Giả sử bạn sử dụng _id để định danh loại bàn
-        option.textContent = type.name;
-        selectElement.appendChild(option);
-      });
-    } catch (error) {
-      console.error('Lỗi khi gọi API:', error);
-    }
-});
-
-document.getElementById('saveTableBtn').addEventListener('click', async () => {
-    // Lấy dữ liệu từ form
-    const name = document.getElementById('inputName').value;
-    const typeId = document.getElementById('tableTypeSelect').value;
-  
-    // Kiểm tra xem đã chọn loại bàn chưa
-    if (!name || !typeId) {
-      alert('Vui lòng điền tên và chọn loại bàn');
-      return;
-    }
-  
-    try {
-      // Gửi yêu cầu POST đến server
-      const response = await fetch('/api/create-table', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: name,
-          typeId: typeId
-        })
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        alert('Thêm bàn thành công!');
-        location.reload();
-      } else {
-        alert(`Lỗi: ${result.message}`);
-      }
-    } catch (error) {
-      console.error('Lỗi khi thêm bàn:', error);
-      alert('Lỗi khi thêm bàn, vui lòng thử lại sau.');
-    }
-});
 
 document.getElementById('ThemDichVuModal').addEventListener('show.bs.modal', async function () {
   try {

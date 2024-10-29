@@ -51,4 +51,24 @@ router.post('/payment', tablecontroller.payment)
 
 //Xuất hóa đơn 
 router.get('/getInfoInvoice',tablecontroller.getInfoInvoice)
+
+
+
+
+//Api get tablelist for manager table
+router.get('/gettablelist',tablecontroller.getTableList)
+
+//Get detail tables
+router.get('/tables/:id', tablecontroller.getDetailTable)
+
+router.put('/update-table/:id',tablecontroller.updatedTable )
+
+// Lấy ra tổng số bàn, bàn đang sử dụng 
+router.get('/overview', tablecontroller.overview)
+
+//Get doanh thu các tháng
+router.get('/revenue/monthly',tablecontroller.calculateMonthlyRevenue)
+
+//Get Khách hàng đã thanh toán trong ngày
+router.get('/invoices/today',tablecontroller.getInvoicesForToday)
 module.exports = router;
