@@ -10,6 +10,7 @@ const Service = require('../models/service');
 const ServiceType = require('../models/service-type');
 const Invoice = require('../models/invoices');
 const mongoose = require('mongoose');
+const { get } = require('../routes/web');
 
 const listtable = async (req,res) =>{
 
@@ -369,6 +370,142 @@ const getInfoInvoice = async(req,res)=>{
 }
 
 
+//Get table for manager 
+const getTableList = async(req,res)=>{
+
+  try {
+
+    let page = parseInt(req.query.page) || 1;
+        let limit = parseInt(req.query.limit) || 5;
+        let skip = (page - 1) * limit;
+
+    // Truy vấn tất cả các bàn và populate thông tin loại bàn và trạng thái
+    const tables = await TableModel.find()
+          .skip(skip)
+          .limit(limit)
+      .populate('typeId', 'name price') // Chỉ lấy tên và giá của loại bàn
+      .populate('statusId', 'name') // Chỉ lấy tên của trạng thái
+      .exec();
+
+    const total = await TableModel.countDocuments({});
+    // Trả về kết quả dưới dạng JSON
+    res.status(200).json({
+      tables,
+      total: total,
+        page: page,
+        totalPages: Math.ceil(total / limit)
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Có lỗi xảy ra khi lấy danh sách bàn!' });
+  }
+
+}
+
+
+const getDetailTable = async(req,res)=>{
+  try {
+    const tableId = req.params.id;
+    
+    // Lấy thông tin bàn, loại bàn và trạng thái
+    const table = await TableModel.findById(tableId).populate('typeId statusId').lean();
+    const allTypes = await TypeTable.find().lean();
+    const allStatuses = await StatusModel.find().lean();
+
+    if (!table) return res.status(404).json({ message: 'Không tìm thấy bàn' });
+
+    res.json({
+        tableId: table._id,
+        name: table.name,
+        typeId: table.typeId?._id,
+        statusId: table.statusId?._id,
+        allTypes,
+        allStatuses
+    });
+  } catch (error) {
+      console.error('Lỗi khi lấy chi tiết bàn:', error);
+      res.status(500).json({ message: 'Lỗi server' });
+  }
+}
+
+const updatedTable= async (req, res)=>{
+    const tableId = req.params.id;
+    const { name, typeId, statusId } = req.body;
+
+    TableModel.findByIdAndUpdate(tableId, { name, typeId, statusId }, { new: true })
+        .then(updatedTable => {
+            res.status(200).json(updatedTable);
+        })
+        .catch(error => {
+            console.error('Lỗi cập nhật bàn:', error);
+            res.status(500).json({ error: 'Cập nhật không thành công' });
+        });
+}
+
+const overview= async( req, res)=>{
+  try {
+    // Đếm tổng số bàn
+    const totalTables = await TableModel.countDocuments();
+
+    // Đếm số bàn đang sử dụng (is_active = true hoặc dựa vào bản ghi chưa hoàn thành trong table-usage)
+    const tablesInUse = await TableUsage.countDocuments({ complete: false });
+
+    // Đếm tổng số khách hàng
+    const totalCustomers = await CustomerModel.countDocuments();
+
+    res.status(200).json({
+        totalTables,
+        tablesInUse,
+        totalCustomers
+    });
+  } catch (error) {
+      console.error('Lỗi khi lấy số liệu tổng quan:', error);
+      res.status(500).json({ error: 'Lỗi server' });
+  }
+}
+
+const calculateMonthlyRevenue = async (req,res) => {
+  try {
+    const monthlyRevenue = await Invoice.aggregate([
+      {
+        $match: { status: 'Đã Thanh Toán' }  // Lọc các hóa đơn đã hoàn thành
+      },
+      {
+        $group: {
+          _id: { month: { $month: { $toDate: "$update_at" } } },  // Nhóm theo tháng
+          total: { $sum: { $toDouble: "$total_amount" } }
+        }
+      },
+      {
+        $sort: { "_id.month": 1 }
+      }
+    ]);
+
+
+    res.status(200).json(monthlyRevenue)
+
+
+  } catch (error) {
+    
+    console.error("Lỗi lấy doanh thu theo tháng: ", error);
+    res.status(500).send('Lỗi khi lấy dữ liệu doanh thu');
+  }
+};
+
+const getInvoicesForToday = async (req, res) => {
+  try {
+    
+    const invoices = await Invoice.find({
+      status: "Đã Thanh Toán" 
+    }).populate('customerId');
+
+  
+    res.json(invoices);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching invoices');
+  }
+};
 
 module.exports = {
   listtable,
@@ -377,5 +514,11 @@ module.exports = {
    getTableUsage,
    calculateAndSave,
    payment,
-   getInfoInvoice
+   getInfoInvoice,
+   getTableList,
+   getDetailTable,
+   updatedTable,
+   overview,
+   calculateMonthlyRevenue,
+   getInvoicesForToday
 }

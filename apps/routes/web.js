@@ -14,12 +14,21 @@ router.get('/',(req, res) => {
     res.render('layout.ejs');
 });
 
-router.get('/list-table', (req,res)=>{
-    res.render('list-table.ejs');
-})
+router.get('/home', (req,res)=>{
+    res.render('home.ejs');
+});
 
 
 router.get('/invoice',(req,res)=>{
     res.render('invoices.ejs');
+});
+
+router.get('/managertable',(req,res)=>{
+    res.render('list-table.ejs')
 })
+
+router.get('/statistic',(req,res)=>{
+    res.render('statistical.ejs');
+})
+
 module.exports = router;
