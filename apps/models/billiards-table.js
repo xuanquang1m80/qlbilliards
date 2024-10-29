@@ -7,7 +7,8 @@ const TableSchema = new Schema({
     name: String,
     is_active: Boolean,
     typeId: {
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'table-type'
     },
     statusId: {
         type: mongoose.Schema.Types.ObjectId,

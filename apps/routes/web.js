@@ -10,7 +10,7 @@ router.get('/login', (req, res) => {
 });
 
 
-router.get('/', authenticate.checkcookies,(req, res) => {
+router.get('/',(req, res) => {
     res.render('layout.ejs');
 });
 
@@ -18,4 +18,8 @@ router.get('/list-table', (req,res)=>{
     res.render('list-table.ejs');
 })
 
+
+router.get('/invoice',(req,res)=>{
+    res.render('invoices.ejs');
+})
 module.exports = router;
