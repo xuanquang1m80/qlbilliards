@@ -403,6 +403,7 @@ function calculateAndSave(){
       if (response.ok) {
           alert('Dữ liệu đã được lưu thành công!');
           closeModal();
+          location.reload();
       } else {
           console.error('Có lỗi xảy ra khi lưu dữ liệu!');
       }
@@ -438,7 +439,7 @@ function payment(){
   
       // Lưu invoiceId vào cookies với tên 'invoicesId'
      setCookie('invoicetotal',invoiceId,1)
-      window.location.href = "/invoice";
+      window.location.href = "/web/invoice";
   }).catch(error => {
       console.error('Có lỗi xảy ra:', error);
   });

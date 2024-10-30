@@ -1,0 +1,205 @@
+<%
+
+
+let content = `
+
+<div class="pagetitle">
+    <h1>Đặt Bàn</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Tổng Quan</a></li>
+            <li class="breadcrumb-item active">Quản Lý Đặt Bàn</li>
+        </ol>
+    </nav>
+</div>
+
+<section class="section">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="card">
+                <div class="card-body" style="font-size: 13px; font-family: revert-layer;">
+                    <h5 class="card-title">Đặt Bàn</h5>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active " id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                                    type="button" role="tab" aria-controls="home" aria-selected="true">
+                                Theo Danh Sách
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-2" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="choxepban_cb" value="1">
+                                            <label class="form-check-label" for="inlineCheckbox1">Chờ xếp bàn</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="daxepban_cb" value="2">
+                                            <label class="form-check-label" for="inlineCheckbox2">Đã xếp bàn</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="danhanban_cb" value="3">
+                                            <label class="form-check-label" for="inlineCheckbox3">Đã nhận bàn</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="dahuy_cb" value="4">
+                                            <label class="form-check-label" for="inlineCheckbox4">Đã Hủy</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-4 d-flex justify-content-end pb-3 gap-2">
+                                        <button type="button" id="bookingBTN" class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#bookingModal">
+                                            <i class="bi bi-calendar-check-fill "></i>Đặt bàn
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table" id="table_booking">
+                                <table class="table table-hover">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th scope="col" class="fw-bolder">Mã Đặt Bàn</th>
+                                            <th scope="col" class="fw-bolder">Ngày Đến</th>
+                                            <th scope="col" class="fw-bolder">Khách Hàng</th>
+                                            <th scope="col" class="fw-bolder">Điện Thoại</th>
+                                            <th scope="col" class="fw-bolder">Bàn</th>
+                                            <th scope="col" class="fw-bolder">Trạng Thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="bookingModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Đặt Bàn</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="mb-3 row">
+                    <label for="customer" class="col-sm-3 col-form-label">Khách hàng</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" id="customerDropdown" aria-label="Default select example">
+                            
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="reservationCode" class="col-sm-3 col-form-label">Mã đặt bàn</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="reservationCode" placeholder="Mã tự động" disabled>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="arrivalTime" class="col-sm-3 col-form-label">Giờ đến</label>
+                    <div class="col-sm-9">
+                        <input type="datetime-local" class="form-control" id="arrivalTime">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="roomTable" class="col-sm-3 col-form-label">Phòng/Bàn</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" id="list-table" aria-label="Default select example">
+                            <option value="">Trống</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" id="saveTableBtn" class="btn btn-primary">Đặt Bàn</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Chitietdatban" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered rounded-pill " style="max-width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bolder" id="customerName"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label-block form-label-icon">
+                            <i class="bi bi-bag-check"> Mã đặt bàn</i>
+                        </label>
+                        <div id="maDatBan" class="form-control-static fw-bolder">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-block form-label-icon">
+                            <i class="bi bi-person"> Khách hàng</i>
+                        </label>
+                        <div id="customerName2" class="form-control-static fw-bolder"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-block form-label-icon">
+                            <i class="bi bi-person"> Số Điện Thoại </i>
+                        </label>
+                        <div id="phoneNumber" class="form-control-static fw-bolder"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-block form-label-icon">
+                            <i class="bi bi-calendar-check"> Giờ đến</i>
+                        </label>
+                        <input type="datetime-local" id="ngayNhan" class="form-control"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label-block form-label-icon">
+                            <i class="bi bi-calendar-check"> Bàn Đặt</i>
+                        </label>
+                        <select class="form-select" id="banDat">
+                            <!-- Danh sách loại bàn sẽ được thêm bằng JavaScript -->
+                        </select>
+                    </div>
+                    
+                </form>
+
+                <div class="modal-footer">
+                    <button type="button" id="deleteBooking" class=" btn btn-outline-danger rounded-pill">
+                        <i class="bi bi-person-x-fill"></i> Xóa
+                    </button>
+                    <button type="button" id="cancelBooking" class="btn btn-danger rounded-pill">
+                        <i class="bi bi-journal-x"></i> Hủy đặt
+                    </button>
+                    <button type="button" id="arrangeBooking" class="btn btn-danger rounded-pill">
+                        <i class="bi bi-journal-x"></i> Cập Nhật
+                    </button>
+                    <button type="button" id="receiveBooking" class="btn btn-danger rounded-pill">
+                        <i class="bi bi-journal-x"></i> Nhận Bàn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+`;
+
+let scripts = ` <script src="/static/js/bookingjs.js"></script> `;
+
+
+
+%>
+
+
+<%- include('layout', { title: 'Đặt Bàn ', content: content, scripts: scripts }) %>

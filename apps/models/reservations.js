@@ -4,7 +4,7 @@ const Schema =  mongoose.Schema;
 const ReservationsSchema = new Schema({
    tableId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'billiards-table'
+        ref: 'billiard-table'
    },
     customerId: {
         type: mongoose.Schema.Types.ObjectId,

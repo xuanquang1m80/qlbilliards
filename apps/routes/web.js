@@ -10,25 +10,29 @@ router.get('/login', (req, res) => {
 });
 
 
-router.get('/',(req, res) => {
+router.get('/',authenticate.checkcookies,(req, res) => {
     res.render('layout.ejs');
 });
 
-router.get('/home', (req,res)=>{
+router.get('/home',authenticate.checkcookies, (req,res)=>{
     res.render('home.ejs');
 });
 
 
-router.get('/invoice',(req,res)=>{
+router.get('/invoice',authenticate.checkcookies,(req,res)=>{
     res.render('invoices.ejs');
 });
 
-router.get('/managertable',(req,res)=>{
+router.get('/managertable',authenticate.checkcookies,(req,res)=>{
     res.render('list-table.ejs')
 })
 
-router.get('/statistic',(req,res)=>{
+router.get('/statistic',authenticate.checkcookies,(req,res)=>{
     res.render('statistical.ejs');
+})
+
+router.get('/booking',authenticate.checkcookies, (req,res)=>{
+    res.render('booking-table.ejs');
 })
 
 module.exports = router;
