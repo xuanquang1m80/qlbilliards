@@ -34,11 +34,44 @@ async function loadInvoice(){
 
         // Hiển thị tổng tiền
         document.getElementById('tienBan').textContent= `${data.tableCost}`;
-        document.getElementById('tienDichVu').textContent= `${data.services.totalPrice}`;
         document.querySelector('.float-end span').textContent = `${data.totalAmount}`;
     } catch (error) {
         console.error('Lỗi khi tải hóa đơn:', error);
     }
+}
+
+
+document.getElementById('CompleteBtn').addEventListener('click', async ()=>{
+    const status = document.getElementById('inputState').value;
+
+    try {
+        // Gửi yêu cầu POST đến server
+        const response = await fetch('/api/updateInvoice', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            status
+          })
+        });
+    
+        const result = await response.json();
+    
+        if (response.ok) {
+          window.location.href="/web/home"
+        } else {
+          alert(`Lỗi: ${result.message}`);
+        }
+      } catch (error) {
+        console.error('Lỗi khi thêm bàn:', error);
+        alert('Lỗi khi cập nhật, vui lòng thử lại sau.');
+      }
+
+})
+
+function printBill() {
+  window.print(); // Thực hiện in nội dung trong vùng `.print-area` đã được CSS định nghĩa
 }
 
 // Gọi hàm loadStudentList khi trang được tải

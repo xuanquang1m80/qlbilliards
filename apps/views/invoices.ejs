@@ -20,7 +20,7 @@ let content = `
                 <hr>
             </div>
 
-            <div class="container">
+            <div class="container print-area">
                 <div class="col-md-12">
                     <div class="text-center">
                         <h2 class="pt-0 fw-bold" style="color: #4a90e2;">HÓA ĐƠN BÀN BILLAIRDS</h2>
@@ -85,7 +85,6 @@ let content = `
                     <div class="col-xl-4">
                         <ul class="list-unstyled">
                             <li class="text-muted"><span class="text-black me-4 fw-bold">TIỀN BÀN</span> <span id="tienBan" class="float-end"> vnđ</span></li>
-                            <li class="text-muted mt-2"><span class="text-black me-4 fw-bold">TIỀN DỊCH VỤ</span> <span id="tienDichVu" class="float-end"> vnđ</span></li>
                         </ul>
                         <p class="text-black float-end fw-bold">
                             <span class="text-black me-3">TỔNG TIỀN</span><span style="font-size: 25px;"> vnđ</span>
@@ -103,7 +102,7 @@ let content = `
     </div>
 </div>
 <div class="col-xl-2">
-    <a type="button" class="btn btn-success text-capitalize">
+    <a type="button" id="CompleteBtn" class="btn btn-success text-capitalize">
         Hoàn Tất
     </a>
 </div>
@@ -128,7 +127,23 @@ let content = `
         background-color: #5cb85c;
         border-color: #5cb85c;
     }
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area, .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+
 </style>
+
 
 `;
 let scripts = ` <script src="/static/js/payment.js"></script> `;

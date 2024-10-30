@@ -106,6 +106,7 @@ const getTableUsage = async(req,res)=>{
     // Lấy thông tin chi tiết từ bảng `customer` dựa trên `customerId`
     const customer = tableUsage.customerId;
     
+    console.log(customer)
     const table = tableUsage.tableId;
 
      // Truy vấn để lấy các dịch vụ liên quan từ bảng `service-usage` dựa trên `tableUsage._id`
@@ -221,8 +222,8 @@ const setStatusTable = async(tableId, statusname)=>{
 
 
 const calculateDuration = (start_time) => {
+ 
   const now = new Date();
-
   // Tạo đối tượng thời gian từ chuỗi giờ bắt đầu
   const [hours, minutes] = start_time.split(':').map(Number);
   const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
@@ -267,20 +268,22 @@ const payment= async (req,res)=>{
    const durationHours = calculateDuration(tableUsage.start_time);
 
 
+   //console.log(tableUsage.start_time,durationHours)
+
     // Lấy thông tin bàn và loại bàn
     const table = await TableModel.findById(tableId).populate('typeId');
     if (!table || !table.typeId) return res.status(404).json({ message: 'Không tìm thấy thông tin loại bàn' });
     // Tính chi phí bàn
     const tableCost = calculateTableCost(durationHours, table);
 
-    // Tính tổng tiền dịch vụ
+    // // Tính tổng tiền dịch vụ
     const totalServiceCost = await calculateTotalServiceCost(tableUsageId);
 
-    // Tính tổng tiền
+    // // Tính tổng tiền
     const totalAmount = tableCost + totalServiceCost;
 
 
-     // Tạo tài liệu hóa đơn mới
+    //  // Tạo tài liệu hóa đơn mới
       const newInvoice = new Invoice({
             table_usageId: tableUsageId,
             customerId: tableUsage.customerId,
@@ -290,7 +293,7 @@ const payment= async (req,res)=>{
             update_at: moment().toISOString()
         });
 
-        // Lưu hóa đơn
+    //     // Lưu hóa đơn
         await newInvoice.save();
 
         // Cập nhật thời gian kết thúc và tổng thời gian sử dụng cho table usage
@@ -302,7 +305,8 @@ const payment= async (req,res)=>{
 
         setStatusTable(tableId,'Đang Trống');
 
-      res.status(200).json({ message: 'Tạo hóa đơn thành công', invoice: newInvoice });
+     res.status(200).json({ message: 'Tạo hóa đơn thành công', invoice: newInvoice });
+   
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Lỗi khi tính toán và tạo hóa đơn', error });
@@ -507,6 +511,43 @@ const getInvoicesForToday = async (req, res) => {
   }
 };
 
+
+const updateInvoice = async(req,res)=>{
+  try {
+    // Lấy ID từ cookie
+    const invoiceId = req.cookies.invoicetotal; // giả sử bạn lưu ID hóa đơn trong cookie
+
+  
+    // Lấy payment_method từ body của request
+    const payment_method  = req.body.status;
+    // Kiểm tra xem ID và payment_method có hợp lệ không
+    if (!invoiceId || !payment_method) {
+        return res.status(400).json({ message: "ID hóa đơn hoặc phương thức thanh toán không hợp lệ." });
+    }
+
+    // Cập nhật invoice
+    const updatedInvoice = await Invoice.findByIdAndUpdate(
+        invoiceId,
+        { 
+            payment_method: payment_method, 
+            status: "Đã Thanh Toán" 
+        },
+        { new: true } // Để trả về tài liệu đã cập nhật
+    );
+
+    // Kiểm tra xem hóa đơn có được cập nhật không
+    if (!updatedInvoice) {
+        return res.status(404).json({ message: "Hóa đơn không tìm thấy." });
+    }
+
+    // Trả về hóa đơn đã được cập nhật
+    res.json(updatedInvoice);
+    } catch (error) {
+        console.error("Error updating invoice:", error);
+        res.status(500).json({ message: "Đã xảy ra lỗi trong quá trình cập nhật." });
+    }
+}
+
 module.exports = {
   listtable,
    listtype,
@@ -520,5 +561,6 @@ module.exports = {
    updatedTable,
    overview,
    calculateMonthlyRevenue,
-   getInvoicesForToday
+   getInvoicesForToday,
+   updateInvoice
 }

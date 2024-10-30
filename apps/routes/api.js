@@ -5,6 +5,8 @@ const router = express.Router();
 const authcontroller = require('../controllers/authcontroller');
 const tablecontroller = require('../controllers/tablecontroller');
 const servicecontroller = require('../controllers/servicecontroller');
+const bookingcontroller = require('../controllers/bookingcontroller');
+const { route } = require('./web');
 
 //------------ Các routes cho quản lý API----------------
 
@@ -52,9 +54,6 @@ router.post('/payment', tablecontroller.payment)
 //Xuất hóa đơn 
 router.get('/getInfoInvoice',tablecontroller.getInfoInvoice)
 
-
-
-
 //Api get tablelist for manager table
 router.get('/gettablelist',tablecontroller.getTableList)
 
@@ -71,4 +70,26 @@ router.get('/revenue/monthly',tablecontroller.calculateMonthlyRevenue)
 
 //Get Khách hàng đã thanh toán trong ngày
 router.get('/invoices/today',tablecontroller.getInvoicesForToday)
+
+router.put('/updateInvoice',tablecontroller.updateInvoice)
+
+//Lấy tất cả danh sách bàn
+router.get('/tableandcustomer',bookingcontroller.tableandcustomer)
+
+// ADD Booking Table 
+router.post('/addbooking', bookingcontroller.addbooking)
+
+//Get List Booking 
+router.get('/getbooking',bookingcontroller.listbooking)
+//Get Detail Booking
+router.get('/getbooking/:id', bookingcontroller.detailbooking)
+
+//Delete Booking 
+router.delete('/delbooking/:id',bookingcontroller.deletebooking)
+
+router.get('/cancelbooking/:id',bookingcontroller.canclebooking)
+
+//Nhận Bàn từ bàn đặt
+router.post('/receitable', bookingcontroller.receibooking)
+
 module.exports = router;
