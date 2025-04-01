@@ -38,6 +38,10 @@ const tableandcustomer= async (req,res)=>{
 const addbooking = async (req,res)=>{
 
     try {
+        const user = req.user;
+        console.log(user)
+
+
         const { customerId, start_time, tableId} = req.body;
 
         // Xác định trạng thái của đặt bàn

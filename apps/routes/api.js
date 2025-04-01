@@ -6,6 +6,7 @@ const authcontroller = require('../controllers/authcontroller');
 const tablecontroller = require('../controllers/tablecontroller');
 const servicecontroller = require('../controllers/servicecontroller');
 const bookingcontroller = require('../controllers/bookingcontroller');
+const authenticate = require('../middleware/authenticatetoken')
 const { route } = require('./web');
 
 //------------ Các routes cho quản lý API----------------
@@ -17,7 +18,7 @@ router.post('/auth', authcontroller.login)
 
 
 //Get danh sách table 
-router.get('/table',tablecontroller.listtable)
+router.get('/table',authenticate.checkcookies,tablecontroller.listtable)
 
 
 //Get danh sách loại bàn
@@ -77,7 +78,7 @@ router.put('/updateInvoice',tablecontroller.updateInvoice)
 router.get('/tableandcustomer',bookingcontroller.tableandcustomer)
 
 // ADD Booking Table 
-router.post('/addbooking', bookingcontroller.addbooking)
+router.post('/addbooking',authenticate.checkcookies, bookingcontroller.addbooking)
 
 //Get List Booking 
 router.get('/getbooking',bookingcontroller.listbooking)
